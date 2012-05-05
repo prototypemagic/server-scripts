@@ -1,0 +1,13 @@
+#!/bin/bash
+
+PROJECT=PROJECT_NAME
+SITE_PATH="/home/ubuntu/django_projects/$PROJECT/${PROJECT}_site"
+
+GIT_WORK_TREE=$SITE_PATH git checkout -f
+chmod 666 $SITE_PATH/db.sql
+source /usr/local/bin/virtualenvwrapper.sh && workon $PROJECT && pip install -r $SITE_PATH/requirements.txt
+sudo apache2ctl graceful
+#git push redmine master
+
+# ptm-gobot IRC bot listens for project names on port 6666
+echo -n "$PROJECT" | nc localhost 6666 -q 0
